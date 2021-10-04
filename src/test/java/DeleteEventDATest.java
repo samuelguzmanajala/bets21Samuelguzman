@@ -129,7 +129,7 @@ class DeleteEventDATest {
 
 		testDA.close();
 
-	}
+//esto es para que haya un commit	}
 */
 	
 
@@ -150,7 +150,7 @@ class DeleteEventDATest {
 		Event ev1=new Event(4,"Atletico-Barcelona",UtilDate.newDate(year, month, 17));
 		Question q1;
 		q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
-
+			
 		testDA.open(false);
 		boolean s=testDA.insertEvent(ev1);
 			boolean expected=true;
