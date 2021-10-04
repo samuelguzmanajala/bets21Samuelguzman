@@ -45,6 +45,7 @@
 			<version>1.7.0</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.toedter</groupId>
 			<artifactId>jcalendar</artifactId>

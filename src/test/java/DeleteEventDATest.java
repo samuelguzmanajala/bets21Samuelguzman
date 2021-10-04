@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import javax.persistence.EntityManager;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,6 @@ class DeleteEventDATest {
 	static DataAccess testDA = new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
 
 	private Event ev;
-	//@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		testDA.open(false);
 		testDA.registrar("samuel", "1234", "samuel", "guzman", "12/04/2000", "usuario@gmail.com", "ES11 1111 1111 1111", 123456789, "32", 100);
