@@ -134,8 +134,33 @@ class DeleteEventDATest {
 	
 
 	@Test
-	@DisplayName("evento nulo")
+	@DisplayName("evento eliminado sin preguntas")
 	void testDeleteEvent4() throws NullPointerException{
+		Calendar today = Calendar.getInstance();
+
+		int month = today.get(Calendar.MONTH);
+		month += 1;
+		int year = today.get(Calendar.YEAR);
+		if (month == 12) {
+			month = 0;
+			year += 1;
+		}
+		Event ev1=new Event(4,"Atletico-Barcelona",UtilDate.newDate(year, month, 17));
+		Question q1;
+		q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
+			
+		testDA.open(false);
+		boolean s=testDA.insertEvent(ev1);
+			boolean expected=true;
+			boolean obtained=testDA.deleteEvent(ev1);
+			assertEquals(expected,obtained);
+			testDA.close();
+
+		
+	}
+	@Test
+	@DisplayName("evento eliminado con preguntas")
+	void testDeleteEvent5() throws NullPointerException{
 		Calendar today = Calendar.getInstance();
 
 		int month = today.get(Calendar.MONTH);

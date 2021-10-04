@@ -389,12 +389,12 @@ public class DataAccess {
 	public boolean deleteEvent(Event evento) {
 		try {
 			db.getTransaction().begin();
-			
 			if(evento==null) {
 				throw new NullPointerException("parametro nulo");
 			}
 			
-			Event event1 = db.find(Event.class, evento.getEventDate());
+			Event event1 = db.find(Event.class, evento.getEventNumber());
+			
 			if(event1==null) {
 				throw new NullPointerException("no se ha encontrado el evento");
 			}
