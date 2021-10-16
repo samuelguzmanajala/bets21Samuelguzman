@@ -97,7 +97,7 @@ class DeleteEventDATest {
 		}
 
 	}
-
+/*
 	@Test
 	@DisplayName("Caso : Eliminar evento con pregunta cuando hay mas preguntas en otros eventos")
 	void testDeleteEventWithQuestion() {
@@ -119,6 +119,15 @@ class DeleteEventDATest {
 			// TODO: handle exception
 		}
 	}
+	*/
+	
+	
+	
+	
+
+	
+	
+	
 /*
 	@Test
 	@DisplayName("evento nulo")
