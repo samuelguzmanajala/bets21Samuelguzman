@@ -1,7 +1,5 @@
 package dataAccess;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.ArrayList;
 //hello
 import java.util.Calendar;
