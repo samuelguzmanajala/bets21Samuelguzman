@@ -1,5 +1,7 @@
 package dataAccess;
 
+import static org.mockito.Mockito.mock;
+
 import java.util.ArrayList;
 //hello
 import java.util.Calendar;
@@ -16,8 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import businessLogic.BLFacadeImplementation;
+import org.apache.log4j.Logger;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.AdminUser;
@@ -33,7 +34,7 @@ import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesNotExistException;
 
 /**
- * It implements the data access to the objectDb database 
+ * It implements the data access to the objectDb database
  */
 public class DataAccess {
 	protected static EntityManager db;
@@ -45,7 +46,7 @@ public class DataAccess {
 	public DataAccess(boolean initializeMode) {
 
 		System.out.println("Creating DataAccess instance => isDatabaseLocal: " + c.isDatabaseLocal()
-		+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
+				+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
 		open(initializeMode);
 
@@ -77,91 +78,108 @@ public class DataAccess {
 			}
 
 			Event ev1 = new Event(1, "Atlético-Athletic", UtilDate.newDate(year, month, 17));
-//			Event ev2 = new Event(2, "Eibar-Barcelona", UtilDate.newDate(year, month, 17));
-//			Event ev3 = new Event(3, "Getafe-Celta", UtilDate.newDate(year, month, 17));
-//			Event ev4 = new Event(4, "Alavés-Deportivo", UtilDate.newDate(year, month, 17));
-//			Event ev5 = new Event(5, "Español-Villareal", UtilDate.newDate(year, month, 17));
-//			Event ev6 = new Event(6, "Las Palmas-Sevilla", UtilDate.newDate(year, month, 17));
-//			Event ev7 = new Event(7, "Malaga-Valencia", UtilDate.newDate(year, month, 17));
-//			Event ev8 = new Event(8, "Girona-Leganés", UtilDate.newDate(year, month, 17));
-//			Event ev9 = new Event(9, "Real Sociedad-Levante", UtilDate.newDate(year, month, 17));
-//			Event ev10 = new Event(10, "Betis-Real Madrid", UtilDate.newDate(year, month, 17));
-//
+			// Event ev2 = new Event(2, "Eibar-Barcelona", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev3 = new Event(3, "Getafe-Celta", UtilDate.newDate(year, month, 17));
+			// Event ev4 = new Event(4, "Alavés-Deportivo", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev5 = new Event(5, "Español-Villareal", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev6 = new Event(6, "Las Palmas-Sevilla", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev7 = new Event(7, "Malaga-Valencia", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev8 = new Event(8, "Girona-Leganés", UtilDate.newDate(year, month,
+			// 17));
+			// Event ev9 = new Event(9, "Real Sociedad-Levante", UtilDate.newDate(year,
+			// month, 17));
+			// Event ev10 = new Event(10, "Betis-Real Madrid", UtilDate.newDate(year, month,
+			// 17));
+			//
 			Event ev11 = new Event(11, "Atletico-Athletic", UtilDate.newDate(year, month, 1));
-//			Event ev12 = new Event(12, "Eibar-Barcelona", UtilDate.newDate(year, month, 1));
-//			Event ev13 = new Event(13, "Getafe-Celta", UtilDate.newDate(year, month, 1));
-//			Event ev14 = new Event(14, "Alavés-Deportivo", UtilDate.newDate(year, month, 1));
-//			Event ev15 = new Event(15, "Español-Villareal", UtilDate.newDate(year, month, 1));
-//			Event ev16 = new Event(16, "Las Palmas-Sevilla", UtilDate.newDate(year, month, 1));
-//
-//			Event ev17 = new Event(17, "Málaga-Valencia", UtilDate.newDate(year, month + 1, 28));
-//			Event ev18 = new Event(18, "Girona-Leganés", UtilDate.newDate(year, month + 1, 28));
-//			Event ev19 = new Event(19, "Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28));
-//			Event ev20 = new Event(20, "Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28));
-//
+			// Event ev12 = new Event(12, "Eibar-Barcelona", UtilDate.newDate(year, month,
+			// 1));
+			// Event ev13 = new Event(13, "Getafe-Celta", UtilDate.newDate(year, month, 1));
+			// Event ev14 = new Event(14, "Alavés-Deportivo", UtilDate.newDate(year, month,
+			// 1));
+			// Event ev15 = new Event(15, "Español-Villareal", UtilDate.newDate(year, month,
+			// 1));
+			// Event ev16 = new Event(16, "Las Palmas-Sevilla", UtilDate.newDate(year,
+			// month, 1));
+			//
+			// Event ev17 = new Event(17, "Málaga-Valencia", UtilDate.newDate(year, month +
+			// 1, 28));
+			// Event ev18 = new Event(18, "Girona-Leganés", UtilDate.newDate(year, month +
+			// 1, 28));
+			// Event ev19 = new Event(19, "Real Sociedad-Levante", UtilDate.newDate(year,
+			// month + 1, 28));
+			// Event ev20 = new Event(20, "Betis-Real Madrid", UtilDate.newDate(year, month
+			// + 1, 28));
+			//
 			User useradmin = new AdminUser(adm, adm, "Pepe", "Lopez");
-			User usuario = new RegularUser("usuario", "Usuario1?", "Usuario", "Apellido", "01/01/1997", "usuario@gmail.com", "ES11 1111 1111 1111", 123456789, "", 0);
+			User usuario = new RegularUser("usuario", "Usuario1?", "Usuario", "Apellido", "01/01/1997",
+					"usuario@gmail.com", "ES11 1111 1111 1111", 123456789, "", 0);
 			db.persist(usuario);
 			db.persist(useradmin);
 			Question q1;
 			Question q2;
 			Question q3;
-//			Question q4;
-//			Question q5;
-//			Question q6;
-//
+			// Question q4;
+			// Question q5;
+			// Question q6;
+			//
 			if (Locale.getDefault().equals(new Locale("es"))) {
 				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
 				q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2);
 				q3 = ev11.addQuestion("¿Quién ganará el partido?", 1);
-//				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
-//				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
-//				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
+				// q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
+				// q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
+				// q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
 				q1 = ev1.addQuestion("Who will win the match?", 1);
 				q2 = ev1.addQuestion("Who will score first?", 2);
 				q3 = ev11.addQuestion("Who will win the match?", 1);
-//				q4 = ev11.addQuestion("How many goals will be scored in the match?", 2);
-//				q5 = ev17.addQuestion("Who will win the match?", 1);
-//				q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
+				// q4 = ev11.addQuestion("How many goals will be scored in the match?", 2);
+				// q5 = ev17.addQuestion("Who will win the match?", 1);
+				// q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
 			} else {
 				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
 				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
-//				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
-//				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
-//				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
-//
+				// q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
+				// q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
+				// q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
+				//
 			}
-//
+			//
 			db.persist(q1);
-//			db.persist(q2);
-//			db.persist(q3);
-//			db.persist(q4);
-//			db.persist(q5);
-//			db.persist(q6);
-//
+			// db.persist(q2);
+			// db.persist(q3);
+			// db.persist(q4);
+			// db.persist(q5);
+			// db.persist(q6);
+			//
 			db.persist(ev1);
-//			db.persist(ev2);
-//			db.persist(ev3);
-//			db.persist(ev4);
-//			db.persist(ev5);
-//			db.persist(ev6);
-//			db.persist(ev7);
-//			db.persist(ev8);
-//			db.persist(ev9);
-//			db.persist(ev10);
-//			db.persist(ev11);
-//			db.persist(ev12);
-//			db.persist(ev13);
-//			db.persist(ev14);
-//			db.persist(ev15);
-//			db.persist(ev16);
-//			db.persist(ev17);
-//			db.persist(ev18);
-//			db.persist(ev19);
-//			db.persist(ev20);
-//
+			// db.persist(ev2);
+			// db.persist(ev3);
+			// db.persist(ev4);
+			// db.persist(ev5);
+			// db.persist(ev6);
+			// db.persist(ev7);
+			// db.persist(ev8);
+			// db.persist(ev9);
+			// db.persist(ev10);
+			// db.persist(ev11);
+			// db.persist(ev12);
+			// db.persist(ev13);
+			// db.persist(ev14);
+			// db.persist(ev15);
+			// db.persist(ev16);
+			// db.persist(ev17);
+			// db.persist(ev18);
+			// db.persist(ev19);
+			// db.persist(ev20);
+			//
 			db.getTransaction().commit();
 			System.out.println("Db initialized");
 		} catch (Exception e) {
@@ -183,8 +201,9 @@ public class DataAccess {
 	public Question createQuestion(Event event, String question, float betMinimum) throws QuestionAlreadyExist {
 		System.out.println(">> DataAccess: createQuestion=> event= " + event + " question= " + question + " betMinimum="
 				+ betMinimum);
-		
-		if (event == null || question == null) return null;
+
+		if (event == null || question == null)
+			return null;
 
 		Event ev = db.find(Event.class, event.getEventNumber());
 
@@ -274,7 +293,7 @@ public class DataAccess {
 	public void open(boolean initializeMode) {
 
 		System.out.println("Opening DataAccess instance => isDatabaseLocal: " + c.isDatabaseLocal()
-		+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
+				+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
 		String fileName = c.getDbFilename();
 		if (initializeMode) {
@@ -382,28 +401,30 @@ public class DataAccess {
 		return false;
 	}
 	/*
-	 * Se eliminara el evento que se pase como parametro.
-	 * Mostrara por pantalla si se ha podido eliminar o no la preginra. 
+	 * Se eliminara el evento que se pase como parametro. Mostrara por pantalla si
+	 * se ha podido eliminar o no la preginra.
 	 */
 
 	public boolean deleteEvent(Event evento) {
+		// evento.getEventNumber();
 		try {
-			db.getTransaction().begin();
-			if(evento==null) {
-				throw new NullPointerException("parametro nulo");
-			}
-			
 			Event event1 = db.find(Event.class, evento.getEventNumber());
-			
-			if(event1==null) {
+			if (event1 == null) {
 				throw new NullPointerException("no se ha encontrado el evento");
 			}
+		} catch (Exception e) {
+			String msg = e.getMessage();
+			System.out.println(msg);
+		}
+
+		try {
+
 			Query query1 = db.createQuery("DELETE FROM Event e WHERE e.getEventNumber()=?1");
 			query1.setParameter(1, evento.getEventNumber());
 
 			TypedQuery<Question> query2 = db.createQuery("SELECT qu FROM Question qu", Question.class);
 			List<Question> preguntasDB = query2.getResultList();
-
+			db.getTransaction().begin();
 			for (Question q : preguntasDB) {
 				if (q.getEvent() == evento) {
 					db.remove(q);
@@ -412,14 +433,55 @@ public class DataAccess {
 					System.out.println("pregunta NO ELIMINADA");
 				}
 			}
-
-			int events = query1.executeUpdate();
+			query1.executeUpdate();
 			db.getTransaction().commit();
 			System.out.println("Evento eliminado: " + evento);
 
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	private static final Logger logger = Logger.getLogger(DataAccess.class);
+
+	public boolean deleteEvent2(Event event) {
+		if (event == null)
+			throw new NullPointerException("The event is null");
+			
+		if (db.find(Event.class, event.getEventNumber()) == null) {
+			System.out.println("El evento no se encuentra en la base de datos");
+			return false;
+		}
+
+		String deleteEventSql = "DELETE FROM Event e WHERE e.getEventNumber()=?1";
+		String selectAllQuestionSql = "SELECT qu FROM Question qu";
+
+		Query query = db.createQuery(deleteEventSql, Question.class);
+
+		query.setParameter(1, event.getEventNumber());
+
+		TypedQuery<Question> query2 = db.createQuery(selectAllQuestionSql, Question.class);
+		try {
+			List<Question> allDbQuestions = query2.getResultList();
+			db.getTransaction().begin();
+			for (Question question : allDbQuestions) {
+				if (question.getEvent().equals(event)) {
+					db.remove(question);
+					System.out.println("La pregunta:"+question.getQuestion()+" ha sido ELIMINADA");
+				} else {
+					System.out.println("La pregunta "+question.getQuestion()+" No ha sido ELIMINADA");
+				}
+			}
+			query.executeUpdate();
+			db.getTransaction().commit();
+			System.out.println("Eveno Eliminado: " + event);
+
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
 			return false;
 		}
 
@@ -558,7 +620,8 @@ public class DataAccess {
 				RegularUser us = db.find(RegularUser.class, u.getUserName());
 
 				if (b.getAmount() > u.getBalance()) {
-					return 3; // 3 --> El usuario no cuenta con el suficiente dinero en su cuenta para apostarr
+					return 3; // 3 --> El usuario no cuenta con el suficiente dinero en su cuenta para
+								// apostarr
 
 				} else {
 
@@ -658,18 +721,19 @@ public class DataAccess {
 
 	public boolean closeEvent(Event e, Question q, Forecast f) {
 		try {
-			db.getTransaction().begin();	
+			db.getTransaction().begin();
 			Event ev = db.find(Event.class, e);
 			Question qe = db.find(Question.class, q);
 			Forecast fe = db.find(Forecast.class, f);
 			qe.setResult(f.getForecast());
-			System.out.println(">> DataAccess: closeEvent=> Event:" + ev.getDescription() + " in question: " + qe.getQuestion() + " with result: " + qe.getResult());
-			if(ev.getClosed()) {
+			System.out.println(">> DataAccess: closeEvent=> Event:" + ev.getDescription() + " in question: "
+					+ qe.getQuestion() + " with result: " + qe.getResult());
+			if (ev.getClosed()) {
 				return false;
-			}else{
-				if(qe.getClosed()) {
+			} else {
+				if (qe.getClosed()) {
 					return false;
-				}else{
+				} else {
 					Vector<Question> qu = new Vector<Question>(e.getQuestions());
 					boolean[] questions = new boolean[qu.size()];
 					int i = 0;
@@ -679,10 +743,10 @@ public class DataAccess {
 					}
 					qe.setClosed(true);
 					fe.setClosed(true);
-					for(boolean bo : questions) {
-						if(!bo) {
+					for (boolean bo : questions) {
+						if (!bo) {
 							ev.setClosed(false);
-						}else {
+						} else {
 							ev.setClosed(true);
 						}
 					}
@@ -690,9 +754,9 @@ public class DataAccess {
 				Vector<Bet> bets = new Vector<Bet>(fe.getBets());
 				for (Bet be : bets) {
 					Bet bet = db.find(Bet.class, be);
-					if(bet.getForecast()==fe) {	
+					if (bet.getForecast() == fe) {
 						payUsers(be);
-					}else {
+					} else {
 						be.setEstadoApuesta("Lose");
 					}
 				}
@@ -769,39 +833,41 @@ public class DataAccess {
 		}
 
 	}
-	
+
 	public boolean cancelEvent(Event e) {
 		try {
 			db.getTransaction().begin();
 			Event ev = db.find(Event.class, e);
-			
+
 			if (ev.getClosed()) {
 				return false;
-			}else {
+			} else {
 				ev.setClosed(true);
 				System.out.println("Canceled event:" + ev.toString());
-				
-				//TODO Devolver dinero a los que apostaron en el evento y marcar apuesta como cancelada (implementar)
-				
+
+				// TODO Devolver dinero a los que apostaron en el evento y marcar apuesta como
+				// cancelada (implementar)
+
 				db.getTransaction().commit();
 				return true;
 			}
-			
+
 		} catch (Exception ex) {
 			return false;
 		}
 	}
-	
+
 	public boolean addMoney(RegularUser u, float n) {
 		try {
 			db.getTransaction().begin();
-			RegularUser us = db.find(RegularUser.class, u);	
+			RegularUser us = db.find(RegularUser.class, u);
 			System.out.println("Old money: " + us.getBalance() + "€");
 			us.setBalance(us.getBalance() + n);
-			System.out.println( n + "€ charged to: " + us.getFirstName() + " " + us.getLastName() + " now you have: " + us.getBalance() + "€");
+			System.out.println(n + "€ charged to: " + us.getFirstName() + " " + us.getLastName() + " now you have: "
+					+ us.getBalance() + "€");
 			db.getTransaction().commit();
 			return true;
-		}catch (Exception ex) {
+		} catch (Exception ex) {
 			return false;
 		}
 	}

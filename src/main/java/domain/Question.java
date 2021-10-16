@@ -180,5 +180,23 @@ public class Question implements Serializable {
 	public boolean getClosed() {
 		return closed;
 	}
+	@Override
+	public boolean equals(Object o){
+		if(o==null)return false;
+		if(this.getClass()!=o.getClass())return false;
+		final Question q= (Question) o;
+
+		if(this.questionNumber!=q.questionNumber)return false;
+		if(this.question!=q.question)return false;
+		if(this.betMinimum!=q.betMinimum)return false;
+		if(this.result!=q.result)return false;
+		if(this.forecasts!=q.forecasts)return false;
+		if(this.event!=q.event)return false;
+		if(this.closed!=q.closed)return false;
+
+		return true;
+		
+
+	}
 
 }

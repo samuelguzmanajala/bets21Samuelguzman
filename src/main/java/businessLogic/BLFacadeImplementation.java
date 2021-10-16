@@ -97,6 +97,7 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
+	//TODO: REALIZAR ESTUDIO DE CAJA NEGRA QUE DEBE COINCIDRI ON EL OTRO. 
 	public boolean deleteEvent(Event evento) {
 		dbManager.open(false);
 		boolean res = dbManager.deleteEvent(evento);

@@ -1,12 +1,13 @@
 package utility;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.ResourceBundle;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,42 +16,46 @@ import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import domain.Event;
+import domain.Question;
+
+import exceptions.QuestionAlreadyExist;
+
 
 public class TestUtilityDataAccess {
-	protected  EntityManager  db;
-	protected  EntityManagerFactory emf;
+	protected EntityManager db;
+	protected EntityManagerFactory emf;
 
-	ConfigXML  c=ConfigXML.getInstance();
+	ConfigXML c = ConfigXML.getInstance();
 
-
-	public TestUtilityDataAccess()  {		
+	public TestUtilityDataAccess() {
 		System.out.println("Creating TestDataAccess instance");
 
-		open();		
+		open();
 	}
 
-	
-	public void open(){
-		
+	public void open() {
+
 		System.out.println("Opening TestDataAccess instance ");
 
-		String fileName=c.getDbFilename();
-		
+		String fileName = c.getDbFilename();
+
 		if (c.isDatabaseLocal()) {
-			  emf = Persistence.createEntityManagerFactory("objectdb:"+fileName);
-			  db = emf.createEntityManager();
+			emf = Persistence.createEntityManagerFactory("objectdb:" + fileName);
+			db = emf.createEntityManager();
 		} else {
 			Map<String, String> properties = new HashMap<String, String>();
-			  properties.put("javax.persistence.jdbc.user", c.getUser());
-			  properties.put("javax.persistence.jdbc.password", c.getPassword());
+			properties.put("javax.persistence.jdbc.user", c.getUser());
+			properties.put("javax.persistence.jdbc.password", c.getPassword());
 
-			  emf = Persistence.createEntityManagerFactory("objectdb://"+c.getDatabaseNode()+":"+c.getDatabasePort()+"/"+fileName, properties);
+			emf = Persistence.createEntityManagerFactory(
+					"objectdb://" + c.getDatabaseNode() + ":" + c.getDatabasePort() + "/" + fileName, properties);
 
-			  db = emf.createEntityManager();
-    	   }
-		
+			db = emf.createEntityManager();
+		}
+
 	}
-	public void close(){
+
+	public void close() {
 		db.close();
 		System.out.println("DataBase closed");
 	}
@@ -58,63 +63,95 @@ public class TestUtilityDataAccess {
 	public boolean removeEvent(Event ev) {
 		System.out.println(">> DataAccessTest: removeEvent");
 		Event e = db.find(Event.class, ev.getEventNumber());
-		if (e!=null) {
+		if (e != null) {
 			db.getTransaction().begin();
 			db.remove(e);
 			db.getTransaction().commit();
 			return true;
-		} else 
-		return false;
-    }
-		
-		public Event addEventWithQuestion(String desc, Date d, String question, float qty) {
-			System.out.println(">> DataAccessTest: addEvent");
-			Event ev=null;
-				db.getTransaction().begin();
-				try {
-				    ev=new Event(desc,d);
-				    ev.addQuestion(question,  qty);
-					db.persist(ev);
-					db.getTransaction().commit();
-				}
-				catch (Exception e){
-					e.printStackTrace();
-				}
-				return ev;
-	    }
-		
-		public Vector<Event> getEvents(Date date) {
-			System.out.println(">> DataAccess: getEvents");
-			Vector<Event> res = new Vector<Event>();	
-			TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",Event.class);   
-			query.setParameter(1, date);
-			List<Event> events = query.getResultList();
-		 	 for (Event ev:events){
-		 	   System.out.println(ev.toString());		 
-			   res.add(ev);
-			  }
-		 	return res;
-		}
-		
-		public boolean existQuestion(Event event, String question) {
-			System.out.println(">> DataAccess: existQuestion=> event= "+event+" question= "+question);
-			Event ev = db.find(Event.class, event.getEventNumber());
-			return ev.DoesQuestionExists(question);
-			
-		}
-		
-		public boolean existEvent(Event event) {
-			System.out.println(">> DataAccess: existEvent=> event= " + event);
-
-			Vector<Event> eventosmismodia = getEvents(event.getEventDate());
-
-			for (Event e : eventosmismodia) {
-				if (e.getDescription().equals(event.getDescription())) {
-					return true;
-				}
-			}
-
+		} else
+			return false;
+	}
+	public boolean addEvent(Event pEvento){
+		try {
+			db.getTransaction().begin();
+			db.persist(pEvento);
+			db.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-}
+	}
 
+	public Event addEventWithQuestion(String desc, Date d, String question, float qty) {
+		System.out.println(">> DataAccessTest: addEvent");
+		Event ev = null;
+		db.getTransaction().begin();
+		try {
+			ev = new Event(desc, d);
+			ev.addQuestion(question, qty);
+			db.persist(ev);
+			db.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ev;
+	}
+
+	public Vector<Event> getEvents(Date date) {
+		System.out.println(">> DataAccess: getEvents");
+		Vector<Event> res = new Vector<Event>();
+		TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1", Event.class);
+		query.setParameter(1, date);
+		List<Event> events = query.getResultList();
+		for (Event ev : events) {
+			System.out.println(ev.toString());
+			res.add(ev);
+		}
+		return res;
+	}
+
+	public boolean existQuestion(Event event, String question) {
+		System.out.println(">> DataAccess: existQuestion=> event= " + event + " question= " + question);
+		Event ev = db.find(Event.class, event.getEventNumber());
+		return ev.DoesQuestionExists(question);
+
+	}
+
+	public boolean existEvent(Event event) {
+		System.out.println(">> DataAccess: existEvent=> event= " + event);
+
+		Vector<Event> eventosmismodia = getEvents(event.getEventDate());
+
+		for (Event e : eventosmismodia) {
+			if (e.getDescription().equals(event.getDescription())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public Question createQuestion(Event event, String question, float betMinimum) throws QuestionAlreadyExist {
+		System.out.println(">> DataAccess: createQuestion=> event= " + event + " question= " + question + " betMinimum="
+				+ betMinimum);
+
+		if (event == null || question == null)
+			return null;
+
+		Event ev = db.find(Event.class, event.getEventNumber());
+
+		if (ev.DoesQuestionExists(question))
+			throw new QuestionAlreadyExist(ResourceBundle.getBundle("Etiquetas").getString("ErrorQueryAlreadyExist"));
+
+		db.getTransaction().begin();
+		Question q = ev.addQuestion(question, betMinimum);
+		// db.persist(q);
+		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added in questions
+		// property of Event class
+		// @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+		db.getTransaction().commit();
+		return q;
+	}
+
+}
