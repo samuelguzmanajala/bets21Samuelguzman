@@ -44,7 +44,7 @@ public class DataAccess {
 	public DataAccess(boolean initializeMode) {
 
 		System.out.println("Creating DataAccess instance => isDatabaseLocal: " + c.isDatabaseLocal()
-				+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
+		+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
 		open(initializeMode);
 
@@ -291,7 +291,7 @@ public class DataAccess {
 	public void open(boolean initializeMode) {
 
 		System.out.println("Opening DataAccess instance => isDatabaseLocal: " + c.isDatabaseLocal()
-				+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
+		+ " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
 		String fileName = c.getDbFilename();
 		if (initializeMode) {
@@ -403,52 +403,10 @@ public class DataAccess {
 	 * se ha podido eliminar o no la preginra.
 	 */
 
-	public boolean deleteEvent(Event evento) {
-		// evento.getEventNumber();
-		try {
-			Event event1 = db.find(Event.class, evento.getEventNumber());
-			if (event1 == null) {
-				throw new NullPointerException("no se ha encontrado el evento");
-			}
-		} catch (Exception e) {
-			String msg = e.getMessage();
-			System.out.println(msg);
-		}
-
-		try {
-
-			Query query1 = db.createQuery("DELETE FROM Event e WHERE e.getEventNumber()=?1");
-			query1.setParameter(1, evento.getEventNumber());
-
-			TypedQuery<Question> query2 = db.createQuery("SELECT qu FROM Question qu", Question.class);
-			List<Question> preguntasDB = query2.getResultList();
-			db.getTransaction().begin();
-			for (Question q : preguntasDB) {
-				if (q.getEvent() == evento) {
-					db.remove(q);
-					System.out.println("pregunta eliminada: " + q);
-				} else {
-					System.out.println("pregunta NO ELIMINADA");
-				}
-			}
-			query1.executeUpdate();
-			db.getTransaction().commit();
-			System.out.println("Evento eliminado: " + evento);
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}
-
-	private static final Logger logger = Logger.getLogger(DataAccess.class);
-
-	public boolean deleteEvent2(Event event) {
+	public boolean deleteEvent(Event event) {
 		if (event == null)
 			throw new NullPointerException("The event is null");
-			
+
 		if (db.find(Event.class, event.getEventNumber()) == null) {
 			System.out.println("El evento no se encuentra en la base de datos");
 			return false;
@@ -475,7 +433,49 @@ public class DataAccess {
 			}
 			query.executeUpdate();
 			db.getTransaction().commit();
-			System.out.println("Eveno Eliminado: " + event);
+			System.out.println("Eveno Eliminado: " + event); 
+
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+
+	}
+
+	private static final Logger logger = Logger.getLogger(DataAccess.class);
+
+	public boolean deleteEvent2(Event event) {
+		if (event == null)
+			throw new NullPointerException("The event is null");
+
+		if (db.find(Event.class, event.getEventNumber()) == null) {
+			System.out.println("El evento no se encuentra en la base de datos");
+			return false;
+		}
+
+		String deleteEventSql = "DELETE FROM Event e WHERE e.getEventNumber()=?1";
+		String selectAllQuestionSql = "SELECT qu FROM Question qu";
+
+		Query query = db.createQuery(deleteEventSql, Question.class);
+
+		query.setParameter(1, event.getEventNumber());
+
+		TypedQuery<Question> query2 = db.createQuery(selectAllQuestionSql, Question.class);
+		try {
+			List<Question> allDbQuestions = query2.getResultList();
+			db.getTransaction().begin();
+			for (Question question : allDbQuestions) {
+				if (question.getEvent().equals(event)) {
+					db.remove(question);
+					System.out.println("La pregunta:"+question.getQuestion()+" ha sido ELIMINADA");
+				} else {
+					System.out.println("La pregunta "+question.getQuestion()+" No ha sido ELIMINADA");
+				}
+			}
+			query.executeUpdate();
+			db.getTransaction().commit();
+			System.out.println("Eveno Eliminado: " + event); 
 
 			return true;
 		} catch (Exception e) {
@@ -619,7 +619,7 @@ public class DataAccess {
 
 				if (b.getAmount() > u.getBalance()) {
 					return 3; // 3 --> El usuario no cuenta con el suficiente dinero en su cuenta para
-								// apostarr
+					// apostarr
 
 				} else {
 
