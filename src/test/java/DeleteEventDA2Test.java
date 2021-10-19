@@ -99,6 +99,7 @@ class DeleteEventDA2Test {
 	@Order(3)
 	void testDeleteEvent4() throws NullPointerException {
 		Event ev1 = null;
+		//null pointer exception
 		NullPointerException exception = assertThrows(NullPointerException.class, () -> {
 			sut.deleteEvent(ev1);
 		});
