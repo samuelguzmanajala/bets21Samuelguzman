@@ -1,8 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,6 @@ import businessLogic.BLFacadeImplementation;
 import configuration.UtilDate;
 import dataAccess.DataAccess;
 import domain.Event;
-import domain.Question;
 
 class DeleteEventBLMockTest {
 	DataAccess dataAccess = Mockito.mock(DataAccess.class);
