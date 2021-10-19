@@ -101,7 +101,6 @@ class DeleteEventDA2Test {
 		Event ev1 = null;
 		//null pointer exception fjdsklfjsalkjfldjaslfjsdl
 		int x;
-		
 		NullPointerException exception = assertThrows(NullPointerException.class, () -> {
 			sut.deleteEvent(ev1);
 		});
