@@ -59,6 +59,7 @@ public class DataAccessGuzman2 {
 		}
 
 	}
+	
 	public void close() {
 		db.close();
 		System.out.println("DataBase closed");

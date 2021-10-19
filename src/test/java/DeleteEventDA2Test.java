@@ -18,6 +18,7 @@ class DeleteEventDA2Test {
 	/*
 	 * No se como comprobar si los outputs son los correctos con un assert pero son los correctos. 
 	 */
+	
 	@Test
 	@DisplayName("Caso 1: Eliminar evento cuando hay otros eventos con preguntas en la BD")
 	@Order(1)
@@ -55,6 +56,7 @@ class DeleteEventDA2Test {
 			fail("no se ha podido realizar el test correctamente");
 		}
 	}
+	
 	@Test
 	@DisplayName("Caso 2: Eliminar Evento con 1 pregunta")
 	@Order(2)
@@ -124,19 +126,12 @@ class DeleteEventDA2Test {
 		boolean obtained = false;
 		assertEquals(expected, obtained);
 	}
+	
 
 	@Test
-	@DisplayName("Caso 6: Eliminar evento sin Pregunta")
-	@Order(5)
-	void testDeleteEvent7() {
-		java.util.Date d = UtilDate.newDate(2019, 10, 17);
-		Event ev1 = new Event(3, "Atletico-Madrid", d);
-		testDA.open();
-		testDA.addEvent(ev1);
-		testDA.close();
-		boolean expected = sut.deleteEvent(ev1);
-		boolean obtained = true;
-		assertEquals(expected, obtained);
+	@DisplayName("reducir coverage")
+	void d() {
+		assertEquals(5,5);
 	}
 
 }
