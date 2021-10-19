@@ -23,6 +23,7 @@ class DeleteEventDATest {
 	@DisplayName("Caso 1: Eliminar evento cuando hay otros eventos con preguntas en la BD")
 	@Order(1)
 	void testDeleteEventA() {
+		//define parameters
 		java.util.Date d = UtilDate.newDate(2019, 10, 17);
 		Event ev1= new Event(1,"Atletico-Atletic", d);
 		Event ev2= new Event(2, "Madrid-Atletic", d);
