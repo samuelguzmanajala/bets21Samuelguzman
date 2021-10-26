@@ -74,8 +74,17 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<sonar.organization>samuelguzmanajala</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.coverage.jacoco.xmlReportPaths>Bests.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<!--<sonar.login>4e310f1c0225b62639eb366e05111428a1911b78</sonar.login>-->
+		<sonar.coverage.jacoco.xmlReportPaths>coverage.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
+	<!--  
+	<properties>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<sonar.organization>samuelguzmanajala</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>Bests.xml</sonar.coverage.jacoco.xmlReportPaths>
+	</properties>-->
 
 	<!-- https://mvnrepository.com/artifact/junit/junit -->
 	<dependencies>
